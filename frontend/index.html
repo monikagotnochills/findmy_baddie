@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Living Spaces - AI-Powered Roommate Matching</title>
+    <meta name="description" content="Find your perfect roommate with AI-powered matching. Chat with our voice assistant, get matched instantly, and discover your dream shared space.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Lottie Animation -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <h2 class="nav__logo">
+                    <lottie-player 
+                        src="https://assets2.lottiefiles.com/packages/lf20_qp1q7mct.json" 
+                        background="transparent" 
+                        speed="1" 
+                        style="width: 30px; height: 30px; display: inline-block; margin-right: 8px;"
+                        loop 
+                        autoplay>
+                    </lottie-player>
+                    Living Spaces
+                </h2>
+            </div>
+            
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="#home" class="nav__link active">Home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#how-it-works" class="nav__link">How It Works</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#swipe-match" class="nav__link">Swipe & Match</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#rooms" class="nav__link">Rooms</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#about" class="nav__link">About</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="nav__actions">
+                <button class="btn btn--ghost btn--sm" id="login-btn">Log In</button>
+                <a href="/admin" class="btn btn--outline btn--sm" id="admin-link" style="display: none;">Admin</a>
+                <button class="nav__toggle" id="nav-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main App Container -->
+    <div id="app-container">
+        <!-- Home Page -->
+        <div id="home-page" class="page active">
+            <!-- Hero Section -->
+            <section id="home" class="hero">
+                <div class="hero__bg"></div>
+                <div class="container hero__container">
+                    <div class="hero__content">
+                        <h1 class="hero__title">
+                            Find Your Perfect Roommate 
+                            <span class="text-gradient">with AI</span>
+                            <lottie-player 
+                                src="https://assets9.lottiefiles.com/packages/lf20_khtt8wfm.json" 
+                                background="transparent" 
+                                speed="1" 
+                                style="width: 60px; height: 60px; display: inline-block; margin-left: 10px;"
+                                loop 
+                                autoplay>
+                            </lottie-player>
+                        </h1>
+                        <p class="hero__description">
+                            Experience the future of roommate matching with our AI-powered voice assistant. 
+                            Get matched in minutes, not weeks, with compatible roommates who share your lifestyle.
+                        </p>
+                        
+                        <div class="hero__cta">
+                            <button class="btn btn--primary btn--lg btn--voice" id="voice-cta">
+                                <lottie-player 
+                                    src="https://assets4.lottiefiles.com/packages/lf20_nXwgWa.json" 
+                                    background="transparent" 
+                                    speed="1" 
+                                    style="width: 24px; height: 24px;"
+                                    loop 
+                                    autoplay>
+                                </lottie-player>
+                                <span>Let's Chat & Match!</span>
+                                <div class="btn__glow"></div>
+                            </button>
+                            <button class="btn btn--secondary btn--lg" id="text-cta">
+                                <i class="fas fa-keyboard"></i>
+                                <span>Type Instead</span>
+                            </button>
+                        </div>
+                        
+                        <div class="hero__stats">
+                            <div class="stat">
+                                <span class="stat__number">15K+</span>
+                                <span class="stat__label">Happy Roommates</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat__number">94%</span>
+                                <span class="stat__label">Success Rate</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat__number">500+</span>
+                                <span class="stat__label">Available Rooms</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero__visual">
+                        <div class="hero__card glass-card floating">
+                            <div class="hero__card-content">
+                                <lottie-player 
+                                    src="https://assets1.lottiefiles.com/packages/lf20_khtt8wfm.json" 
+                                    background="transparent" 
+                                    speed="1" 
+                                    style="width: 80px; height: 80px;"
+                                    loop 
+                                    autoplay>
+                                </lottie-player>
+                                <h3>AI Assistant Ready</h3>
+                                <p>Powered by Omnidim.io</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section id="features" class="features">
+                <div class="container">
+                    <div class="section__header">
+                        <h2 class="section__title">Why Choose Living Spaces?</h2>
+                        <p class="section__description">
+                            Revolutionary AI technology meets human understanding to create perfect roommate matches
+                        </p>
+                    </div>
+                    
+                    <div class="features__grid">
+                        <div class="feature-card glass-card">
+                            <div class="feature-card__icon">🤖</div>
+                            <h3 class="feature-card__title">AI-Powered Matching</h3>
+                            <p class="feature-card__description">
+                                Our advanced algorithm analyzes your preferences to find the most compatible roommates based on lifestyle, habits, and personality.
+                            </p>
+                        </div>
+                        
+                        <div class="feature-card glass-card">
+                            <div class="feature-card__icon">🎤</div>
+                            <h3 class="feature-card__title">Voice Assistant by Omnidim.io</h3>
+                            <p class="feature-card__description">
+                                Chat naturally with our AI assistant. No typing needed - just speak your preferences and let our voice AI understand you perfectly.
+                            </p>
+                        </div>
+                        
+                        <div class="feature-card glass-card">
+                            <div class="feature-card__icon">⚡</div>
+                            <h3 class="feature-card__title">5-Question Micro Survey</h3>
+                            <p class="feature-card__description">
+                                Get matched faster with our streamlined survey. Just 5 smart questions capture everything needed for perfect roommate compatibility.
+                            </p>
+                        </div>
+                        
+                        <div class="feature-card glass-card">
+                            <div class="feature-card__icon">🏠</div>
+                            <h3 class="feature-card__title">Smart Room Allocation</h3>
+                            <p class="feature-card__description">
+                                Beyond matching people, we suggest the perfect room based on your preferences, availability, and compatibility scores.
+                            </p>
+                        </div>
+                        
+                        <div class="feature-card glass-card">
+                            <div class="feature-card__icon">🔒</div>
+                            <h3 class="feature-card__title">Privacy & Security</h3>
+                            <p class="feature-card__description">
+                                Your data is encrypted and secure. We respect your privacy with no biases based on race, religion, or personal characteristics.
+                            </p>
+                        </div>
+                        
+                        <div class="feature-card glass-card">
+                            <div class="feature-card__icon">📞</div>
+                            <h3 class="feature-card__title">24/7 Support</h3>
+                            <p class="feature-card__description">
+                                Our support team and AI assistant are available around the clock to help you find your perfect living situation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How It Works Section -->
+            <section id="how-it-works" class="how-it-works">
+                <div class="container">
+                    <div class="section__header">
+                        <h2 class="section__title">How It Works</h2>
+                        <p class="section__description">
+                            Get matched with your perfect roommate in just 4 simple steps
+                        </p>
+                    </div>
+                    
+                    <div class="steps">
+                        <div class="step glass-card">
+                            <div class="step__number">1</div>
+                            <div class="step__content">
+                                <h3 class="step__title">Take Quick Survey</h3>
+                                <p class="step__description">
+                                    Chat with our AI assistant or type your responses to 5 smart questions about your lifestyle and preferences.
+                                </p>
+                            </div>
+                            <div class="step__icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="step glass-card">
+                            <div class="step__number">2</div>
+                            <div class="step__content">
+                                <h3 class="step__title">AI Analyzes Your Preferences</h3>
+                                <p class="step__description">
+                                    Our advanced algorithm processes your answers and finds compatibility patterns with other users in our database.
+                                </p>
+                            </div>
+                            <div class="step__icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="step glass-card">
+                            <div class="step__number">3</div>
+                            <div class="step__content">
+                                <h3 class="step__title">Get Matched with Compatible Roommates</h3>
+                                <p class="step__description">
+                                    Receive a curated list of highly compatible roommates with detailed compatibility scores and explanations.
+                                </p>
+                            </div>
+                            <div class="step__icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="step glass-card">
+                            <div class="step__number">4</div>
+                            <div class="step__content">
+                                <h3 class="step__title">Choose Your Perfect Room</h3>
+                                <p class="step__description">
+                                    Browse available rooms optimized for your match and preferences. Book tours and start your new living journey!
+                                </p>
+                            </div>
+                            <div class="step__icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rooms Section -->
+            <section id="rooms" class="rooms">
+                <div class="container">
+                    <div class="section__header">
+                        <h2 class="section__title">Available Rooms</h2>
+                        <p class="section__description">
+                            Discover beautiful, well-maintained spaces perfect for shared living
+                        </p>
+                    </div>
+                    
+                    <div class="rooms__filters glass-card">
+                        <div class="filter-group">
+                            <label>Price Range:</label>
+                            <select id="price-filter" class="filter-select glass-input">
+                                <option value="all">All Prices</option>
+                                <option value="0-800">$0 - $800</option>
+                                <option value="800-1000">$800 - $1000</option>
+                                <option value="1000+">$1000+</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label>Room Type:</label>
+                            <select id="type-filter" class="filter-select glass-input">
+                                <option value="all">All Types</option>
+                                <option value="twin">Twin Share</option>
+                                <option value="studio">Studio Share</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label>Location:</label>
+                            <select id="location-filter" class="filter-select glass-input">
+                                <option value="all">All Locations</option>
+                                <option value="downtown">Downtown</option>
+                                <option value="university">University District</option>
+                                <option value="suburban">Suburban</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn btn--secondary" id="clear-filters">Clear Filters</button>
+                    </div>
+                    
+                    <div class="rooms__grid" id="rooms-grid">
+                        <!-- Room cards will be populated by JavaScript -->
+                    </div>
+                    
+                    <div class="rooms__cta">
+                        <button class="btn btn--primary btn--lg">
+                            <i class="fas fa-eye"></i>
+                            <span>Preview More Rooms</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Swipe & Match Page -->
+        <div id="swipe-match-page" class="page">
+            <section class="swipe-match">
+                <div class="container">
+                    <div class="section__header">
+                        <h2 class="section__title">
+                            <lottie-player 
+                                src="https://assets1.lottiefiles.com/packages/lf20_khtt8wfm.json" 
+                                background="transparent" 
+                                speed="1" 
+                                style="width: 40px; height: 40px; display: inline-block; margin-right: 10px;"
+                                loop 
+                                autoplay>
+                            </lottie-player>
+                            Find Your Perfect Match
+                        </h2>
+                        <p class="section__description">Swipe through AI-matched roommate profiles</p>
+                    </div>
+
+                    <div class="match-interface">
+                        <!-- Filters Sidebar -->
+                        <div class="match-filters glass-card">
+                            <h3>Dynamic Filters</h3>
+                            <div class="filter-item">
+                                <label>Budget Range</label>
+                                <input type="range" min="0" max="2000" value="1000" class="budget-slider">
+                                <span>$<span id="budget-value">1000</span>/month</span>
+                            </div>
+                            <div class="filter-item">
+                                <label>Lifestyle</label>
+                                <select class="glass-input">
+                                    <option>All Lifestyles</option>
+                                    <option>Chill</option>
+                                    <option>Active</option>
+                                    <option>Night Owl</option>
+                                    <option>Early Bird</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label>Cleanliness Level</label>
+                                <select class="glass-input">
+                                    <option>Any Level</option>
+                                    <option>Very Tidy</option>
+                                    <option>Moderate</option>
+                                    <option>Relaxed</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label>Work from Home</label>
+                                <input type="checkbox" id="wfh-toggle"> <span>WFH Friendly</span>
+                            </div>
+                            
+                            <!-- Smart Match Explainer -->
+                            <div class="match-explainer glass-card">
+                                <h4>🎯 Smart Match Logic</h4>
+                                <p>Based on your survey and behavioral patterns, we've calculated the best fit using our AI algorithm. Factors: sleep cycle, cleanliness, noise tolerance, and shared interests.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card Stack -->
+                        <div class="card-stack">
+                            <div id="roommate-cards">
+                                <!-- Cards will be populated by JavaScript -->
+                            </div>
+                            
+                            <!-- Swipe Buttons -->
+                            <div class="swipe-actions">
+                                <button class="btn btn--skip" id="skip-btn">
+                                    <i class="fas fa-times"></i>
+                                    <span>Skip</span>
+                                </button>
+                                <button class="btn btn--match" id="match-btn">
+                                    <i class="fas fa-heart"></i>
+                                    <span>Match</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- AI Assistant Panel -->
+                        <div class="ai-assistant-panel glass-card">
+                            <div class="assistant-avatar">
+                                <lottie-player 
+                                    src="https://assets2.lottiefiles.com/packages/lf20_qp1q7mct.json" 
+                                    background="transparent" 
+                                    speed="1" 
+                                    style="width: 50px; height: 50px;"
+                                    loop 
+                                    autoplay>
+                                </lottie-player>
+                            </div>
+                            <div class="assistant-message">
+                                <h4>Hi Monika 👋!</h4>
+                                <p>Want to see only high-score matches or explore all? I can help!</p>
+                                <div class="assistant-actions">
+                                    <button class="btn btn--sm btn--primary">High Scores Only</button>
+                                    <button class="btn btn--sm btn--secondary">Show All</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Admin Dashboard Page -->
+        <div id="admin-page" class="page">
+            <section class="admin-dashboard">
+                <div class="container-fluid">
+                    <div class="admin-header">
+                        <h1>
+                            <lottie-player 
+                                src="https://assets9.lottiefiles.com/packages/lf20_khtt8wfm.json" 
+                                background="transparent" 
+                                speed="1" 
+                                style="width: 40px; height: 40px; display: inline-block; margin-right: 10px;"
+                                loop 
+                                autoplay>
+                            </lottie-player>
+                            Admin Dashboard
+                        </h1>
+                        <button class="btn btn--secondary" id="back-to-home">
+                            <i class="fas fa-arrow-left"></i> Back to Home
+                        </button>
+                    </div>
+
+                    <!-- Dashboard Stats -->
+                    <div class="admin-stats">
+                        <div class="stat-card glass-card">
+                            <h3>Total Users</h3>
+                            <div class="stat-number">15,420</div>
+                            <div class="stat-trend">↑ 12% this month</div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <h3>Active Users</h3>
+                            <div class="stat-number">8,934</div>
+                            <div class="stat-trend">↑ 5% this week</div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <h3>Matches Made</h3>
+                            <div class="stat-number">5,678</div>
+                            <div class="stat-trend">↑ 18% this month</div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <h3>Safety Score</h3>
+                            <div class="stat-number">98.5%</div>
+                            <div class="stat-trend">↑ 2% improvement</div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Controls -->
+                    <div class="admin-content">
+                        <div class="admin-sidebar glass-card">
+                            <h3>Admin Controls</h3>
+                            <nav class="admin-nav">
+                                <a href="#" class="admin-nav-item active" data-tab="users">
+                                    <i class="fas fa-users"></i> User Management
+                                </a>
+                                <a href="#" class="admin-nav-item" data-tab="moderation">
+                                    <i class="fas fa-shield-alt"></i> Content Moderation
+                                </a>
+                                <a href="#" class="admin-nav-item" data-tab="analytics">
+                                    <i class="fas fa-chart-bar"></i> Analytics
+                                </a>
+                                <a href="#" class="admin-nav-item" data-tab="safety">
+                                    <i class="fas fa-heart-pulse"></i> Safety Monitoring
+                                </a>
+                                <a href="#" class="admin-nav-item" data-tab="settings">
+                                    <i class="fas fa-cog"></i> System Settings
+                                </a>
+                            </nav>
+                        </div>
+
+                        <div class="admin-main">
+                            <!-- User Management Tab -->
+                            <div id="users-tab" class="admin-tab active">
+                                <div class="tab-header">
+                                    <h2>User Management</h2>
+                                    <div class="tab-actions">
+                                        <button class="btn btn--primary">Export Users</button>
+                                        <button class="btn btn--secondary">Import Data</button>
+                                    </div>
+                                </div>
+                                <div class="user-table glass-card">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>User</th>
+                                                <th>Email</th>
+                                                <th>Status</th>
+                                                <th>Credibility</th>
+                                                <th>Last Active</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="users-table-body">
+                                            <!-- Users populated by JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Content Moderation Tab -->
+                            <div id="moderation-tab" class="admin-tab">
+                                <div class="tab-header">
+                                    <h2>Content Moderation</h2>
+                                </div>
+                                <div class="moderation-alerts glass-card">
+                                    <h3>Recent Reports</h3>
+                                    <div class="alert-item">
+                                        <div class="alert-content">
+                                            <strong>Inappropriate Profile Content</strong>
+                                            <p>User: priya_s reported by user: alex_m</p>
+                                            <span class="alert-time">2 hours ago</span>
+                                        </div>
+                                        <div class="alert-actions">
+                                            <button class="btn btn--sm btn--secondary">Review</button>
+                                            <button class="btn btn--sm btn--primary">Take Action</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Analytics Tab -->
+                            <div id="analytics-tab" class="admin-tab">
+                                <div class="tab-header">
+                                    <h2>Analytics Dashboard</h2>
+                                </div>
+                                <div class="analytics-charts">
+                                    <div class="chart-container glass-card" style="position: relative; height: 300px;">
+                                        <h3>User Registration Trends</h3>
+                                        <canvas id="registration-chart"></canvas>
+                                    </div>
+                                    <div class="chart-container glass-card" style="position: relative; height: 300px;">
+                                        <h3>Match Success Rate</h3>
+                                        <canvas id="success-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Safety Monitoring Tab -->
+                            <div id="safety-tab" class="admin-tab">
+                                <div class="tab-header">
+                                    <h2>Safety Monitoring</h2>
+                                </div>
+                                <div class="safety-metrics glass-card">
+                                    <div class="safety-score">
+                                        <h3>Overall Safety Score</h3>
+                                        <div class="score-display">98.5%</div>
+                                        <div class="score-indicators">
+                                            <div class="indicator good">
+                                                <span>Verified Profiles</span>
+                                                <span>96%</span>
+                                            </div>
+                                            <div class="indicator good">
+                                                <span>Clean Background Checks</span>
+                                                <span>99%</span>
+                                            </div>
+                                            <div class="indicator warning">
+                                                <span>Pending Reviews</span>
+                                                <span>12</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- System Settings Tab -->
+                            <div id="settings-tab" class="admin-tab">
+                                <div class="tab-header">
+                                    <h2>System Settings</h2>
+                                </div>
+                                <div class="settings-grid">
+                                    <div class="settings-card glass-card">
+                                        <h3>AI Matching Parameters</h3>
+                                        <div class="setting-item">
+                                            <label>Compatibility Threshold</label>
+                                            <input type="range" min="70" max="100" value="85" class="setting-slider">
+                                            <span>85%</span>
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Max Daily Matches</label>
+                                            <input type="number" value="10" class="glass-input">
+                                        </div>
+                                    </div>
+                                    <div class="settings-card glass-card">
+                                        <h3>Security Settings</h3>
+                                        <div class="setting-item">
+                                            <label>Require Phone Verification</label>
+                                            <input type="checkbox" checked>
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Background Check Required</label>
+                                            <input type="checkbox" checked>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Voice Assistant Modal -->
+    <div id="voice-modal" class="modal hidden">
+        <div class="modal__overlay"></div>
+        <div class="modal__content glass-card">
+            <div class="modal__header">
+                <h2 class="modal__title">
+                    <lottie-player 
+                        src="https://assets1.lottiefiles.com/packages/lf20_khtt8wfm.json" 
+                        background="transparent" 
+                        speed="1" 
+                        style="width: 30px; height: 30px; display: inline-block; margin-right: 8px;"
+                        loop 
+                        autoplay>
+                    </lottie-player>
+                    AI Voice Assistant
+                </h2>
+                <button class="modal__close" id="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal__body">
+                <div class="voice-assistant">
+                    <div class="voice-assistant__status" id="assistant-status">
+                        <div class="voice-assistant__avatar">
+                            <lottie-player 
+                                src="https://assets2.lottiefiles.com/packages/lf20_qp1q7mct.json" 
+                                background="transparent" 
+                                speed="1" 
+                                style="width: 60px; height: 60px;"
+                                loop 
+                                autoplay>
+                            </lottie-player>
+                        </div>
+                        <p class="voice-assistant__message" id="assistant-message">
+                            Hi! I'm your AI assistant. Let's find your perfect roommate with just 5 quick questions. Ready to get started?
+                        </p>
+                    </div>
+                    
+                    <div class="voice-assistant__controls">
+                        <button class="btn btn--voice-control" id="mic-button">
+                            <lottie-player 
+                                src="https://assets4.lottiefiles.com/packages/lf20_nXwgWa.json" 
+                                background="transparent" 
+                                speed="1" 
+                                style="width: 30px; height: 30px;"
+                                loop 
+                                autoplay>
+                            </lottie-player>
+                            <span>Tap to Speak</span>
+                        </button>
+                        <button class="btn btn--secondary" id="text-mode">
+                            <i class="fas fa-keyboard"></i>
+                            <span>Switch to Text</span>
+                        </button>
+                    </div>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-bar__fill" id="progress-fill"></div>
+                        <div class="progress-bar__text">
+                            <span id="progress-text">Question 0 of 5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="survey-content" id="survey-content">
+                        <!-- Survey questions will be populated here -->
+                    </div>
+                    
+                    <div class="transcript" id="transcript">
+                        <!-- Voice transcript will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div id="signup-modal" class="modal hidden">
+        <div class="modal__overlay"></div>
+        <div class="modal__content glass-card">
+            <div class="modal__header">
+                <h2 class="modal__title">Create Your Account</h2>
+                <button class="modal__close" id="close-signup-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal__body">
+                <form class="signup-form">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-control glass-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-control glass-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" name="phone" class="form-control glass-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Age</label>
+                        <input type="text" name="age" class="form-control glass-input" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">
+                        Create Account & Start Matching
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Match Success Modal -->
+    <div id="match-modal" class="modal hidden">
+        <div class="modal__overlay"></div>
+        <div class="modal__content glass-card">
+            <div class="match-success">
+                <lottie-player 
+                    src="https://assets5.lottiefiles.com/packages/lf20_khfxaekd.json" 
+                    background="transparent" 
+                    speed="1" 
+                    style="width: 100px; height: 100px; margin: 0 auto;"
+                    loop 
+                    autoplay>
+                </lottie-player>
+                <h2>✅ It's a Match!</h2>
+                <p>You and <span id="match-name">Priya</span> both liked each other.</p>
+                <p>Start a chat or schedule a video intro?</p>
+                <div class="match-actions">
+                    <button class="btn btn--primary">
+                        <i class="fas fa-video"></i> Schedule Call
+                    </button>
+                    <button class="btn btn--secondary">
+                        <i class="fas fa-comments"></i> Start Chat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <lottie-player 
+                src="https://assets3.lottiefiles.com/packages/lf20_p8bfn5to.json" 
+                background="transparent" 
+                speed="1" 
+                style="width: 100px; height: 100px;"
+                loop 
+                autoplay>
+            </lottie-player>
+            <p>Finding your perfect matches...</p>
+        </div>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
