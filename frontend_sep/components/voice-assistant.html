@@ -1,0 +1,76 @@
+<!-- Voice Assistant Modal Component -->
+<!-- Voice Assistant Modal -->
+    <div id="voice-modal" class="modal hidden">
+        <div class="modal__overlay"></div>
+        <div class="modal__content glass-card">
+            <div class="modal__header">
+                <h2 class="modal__title">
+                    <lottie-player 
+                        src="https://assets1.lottiefiles.com/packages/lf20_khtt8wfm.json" 
+                        background="transparent" 
+                        speed="1" 
+                        style="width: 30px; height: 30px; display: inline-block; margin-right: 8px;"
+                        loop 
+                        autoplay>
+                    </lottie-player>
+                    AI Voice Assistant
+                </h2>
+                <button class="modal__close" id="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal__body">
+                <div class="voice-assistant">
+                    <div class="voice-assistant__status" id="assistant-status">
+                        <div class="voice-assistant__avatar">
+                            <lottie-player 
+                                src="https://assets2.lottiefiles.com/packages/lf20_qp1q7mct.json" 
+                                background="transparent" 
+                                speed="1" 
+                                style="width: 60px; height: 60px;"
+                                loop 
+                                autoplay>
+                            </lottie-player>
+                        </div>
+                        <p class="voice-assistant__message" id="assistant-message">
+                            Hi! I'm your AI assistant. Let's find your perfect roommate with just 5 quick questions. Ready to get started?
+                        </p>
+                    </div>
+                    
+                    <div class="voice-assistant__controls">
+                        <button class="btn btn--voice-control" id="mic-button">
+                            <lottie-player 
+                                src="https://assets4.lottiefiles.com/packages/lf20_nXwgWa.json" 
+                                background="transparent" 
+                                speed="1" 
+                                style="width: 30px; height: 30px;"
+                                loop 
+                                autoplay>
+                            </lottie-player>
+                            <span>Tap to Speak</span>
+                        </button>
+                        <button class="btn btn--secondary" id="text-mode">
+                            <i class="fas fa-keyboard"></i>
+                            <span>Switch to Text</span>
+                        </button>
+                    </div>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-bar__fill" id="progress-fill"></div>
+                        <div class="progress-bar__text">
+                            <span id="progress-text">Question 0 of 5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="survey-content" id="survey-content">
+                        <!-- Survey questions will be populated here -->
+                    </div>
+                    
+                    <div class="transcript" id="transcript">
+                        <!-- Voice transcript will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

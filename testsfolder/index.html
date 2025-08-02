@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheBuilds | AI-Powered Roommate Matching</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B8B',
+                        primaryLight: '#FFF0F3',
+                        secondary: '#BA68C8',
+                        accent: '#FF8A65',
+                        background: '#FFF9FB',
+                        dark: '#5A3E5C',
+                        grayLight: '#F9F0FA',
+                        pinkAccent: '#FF9EB5'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'heading': ['Poppins', 'sans-serif'],
+                        'elegant': ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FFF9FB;
+            color: #5A3E5C;
+            transition: all 0.3s ease;
+        }
+        
+        .card {
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(154, 96, 158, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(154, 96, 158, 0.15);
+        }
+        
+        .voice-active {
+            background-color: rgba(255, 107, 139, 0.1);
+            border: 2px solid #FF6B8B;
+            animation: pulse-border 1.5s infinite;
+        }
+        
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 139, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(255, 107, 139, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 139, 0); }
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #F0D7F2;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B8B, #BA68C8);
+            transition: width 0.4s ease;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 18px 28px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(154, 96, 158, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 1000;
+            max-width: 400px;
+            border-left: 5px solid #FF6B8B;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .match-badge {
+            padding: 6px 18px;
+            border-radius: 24px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        .high-match {
+            background: linear-gradient(135deg, #FF6B8B, #FF9EB5);
+            color: white;
+        }
+        
+        .survey-option {
+            border: 1px solid #F0D7F2;
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 15px;
+            background: #FFF9FB;
+        }
+        
+        .survey-option:hover, .survey-option.selected {
+            border-color: #FF6B8B;
+            background: rgba(255, 107, 139, 0.05);
+        }
+        
+        .survey-option.selected {
+            box-shadow: 0 0 0 3px rgba(255, 107, 139, 0.3);
+        }
+        
+        .voice-indicator {
+            width: 14px;
+            height: 14px;
+            background: #FF8A65;
+            border-radius: 50%;
+            margin-right: 8px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .listening .voice-indicator {
+            animation: pulse 1.2s infinite;
+            background: #BA68C8;
+        }
+        
+        .page-section {
+            padding: 100px 0;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #FFF0F3 0%, #F9F0FF 100%);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 24px;
+            background: rgba(255, 107, 139, 0.1);
+            color: #FF6B8B;
+        }
+        
+        .testimonial-card {
+            border-left: 5px solid #FF6B8B;
+        }
+        
+        .compatibility-meter {
+            height: 10px;
+            border-radius: 5px;
+            background: #F0D7F2;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+        
+        .meter-fill {
+            height: 100%;
+            border-radius: 5px;
+            background: linear-gradient(90deg, #FF6B8B, #BA68C8);
+        }
+        
+        .nav-link {
+            position: relative;
+            padding: 10px 22px;
+            border-radius: 24px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 107, 139, 0.1);
+            color: #FF6B8B;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #FF6B8B;
+            border-radius: 50%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B8B, #BA68C8);
+            color: white;
+            border-radius: 16px;
+            padding: 16px 36px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 16px rgba(255, 107, 139, 0.25);
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 139, 0.35);
+            background: linear-gradient(135deg, #FF5C7F, #B05DC8);
+        }
+        
+        .voice-wave {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50px;
+            gap: 5px;
+        }
+        
+        .voice-wave span {
+            display: block;
+            width: 5px;
+            height: 25px;
+            background: #FF6B8B;
+            border-radius: 5px;
+            animation: wave 1.2s ease-in-out infinite;
+        }
+        
+        .voice-wave span:nth-child(1) { animation-delay: 0s; }
+        .voice-wave span:nth-child(2) { animation-delay: 0.2s; }
+        .voice-wave span:nth-child(3) { animation-delay: 0.4s; }
+        .voice-wave span:nth-child(4) { animation-delay: 0.6s; }
+        .voice-wave span:nth-child(5) { animation-delay: 0.8s; }
+        
+        @keyframes wave {
+            0%, 100% { height: 25px; }
+            50% { height: 45px; }
+        }
+        
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1.8rem;
+            background: linear-gradient(135deg, #FF6B8B, #BA68C8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .user-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFE6EC, #F5E6FF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: #FF6B8B;
+            border: 4px solid white;
+            box-shadow: 0 6px 18px rgba(154, 96, 158, 0.15);
+        }
+        
+        .floral-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffd6e0' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .floral-divider {
+            position: relative;
+            height: 60px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23FFF0F3' fill-opacity='1' d='M0,160L60,138.7C120,117,240,75,360,74.7C480,75,600,117,720,122.7C840,128,960,96,1080,101.3C1200,107,1320,149,1380,170.7L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat center bottom;
+            background-size: cover;
+            margin-top: -1px;
+        }
+    </style>
+</head>
+<body class="font-sans relative">
+    <!-- Floral Background -->
+    <div class="floral-bg"></div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="flex items-center">
+            <i class="fas fa-info-circle mr-3 text-lg"></i>
+            <span id="toast-message" class="font-medium"></span>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-sm py-5 px-6 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                    <i class="fas fa-female text-white text-2xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">SheBuilds</h1>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-2">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="#" class="nav-link">How It Works</a>
+                <a href="#" class="nav-link">Testimonials</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Contact</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="startSurveyBtn" class="btn-primary flex items-center">
+                    <i class="fas fa-microphone mr-2"></i> Start Matching
+                </button>
+                <button class="hidden md:block text-dark hover:text-primary">
+                    <i class="fas fa-user text-xl"></i>
+                </button>
+                <button class="md:hidden text-dark">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h1 class="text-5xl md:text-6xl font-bold text-dark mb-6 font-elegant">
+                        Find Your Perfect <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Roommate</span> Match
+                    </h1>
+                    <p class="text-xl text-gray-700 mb-10 max-w-2xl mx-auto leading-relaxed">
+                        Our AI-powered matching system connects you with compatible roommates based on lifestyle preferences, habits, and personality traits. Experience the future of co-living with SheBuilds.
+                    </p>
+                    <div class="flex flex-wrap gap-5">
+                        <button id="startSurveyBtn2" class="btn-primary flex items-center text-lg">
+                            <i class="fas fa-microphone mr-3"></i> Start Voice Survey
+                        </button>
+                        <button class="px-8 py-4 border-2 border-primary text-primary rounded-xl font-medium text-lg hover:bg-primaryLight transition-colors">
+                            <i class="fas fa-play-circle mr-2"></i> Watch Demo
+                        </button>
+                    </div>
+                    
+                    <div class="mt-16 grid grid-cols-3 gap-5 max-w-xl">
+                        <div class="card p-5 text-center">
+                            <div class="text-3xl text-primary mb-3">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3 class="font-bold text-lg">AI Matching</h3>
+                            <p class="text-gray-600 mt-2 text-sm">Smart compatibility algorithm</p>
+                        </div>
+                        <div class="card p-5 text-center">
+                            <div class="text-3xl text-secondary mb-3">
+                                <i class="fas fa-voice"></i>
+                            </div>
+                            <h3 class="font-bold text-lg">Voice Survey</h3>
+                            <p class="text-gray-600 mt-2 text-sm">Natural conversation interface</p>
+                        </div>
+                        <div class="card p-5 text-center">
+                            <div class="text-3xl text-accent mb-3">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="font-bold text-lg">Secure & Private</h3>
+                            <p class="text-gray-600 mt-2 text-sm">Ethical data handling</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <div class="bg-white card p-8 max-w-lg mx-auto transform rotate-1">
+                        <div class="flex justify-between items-center mb-8">
+                            <h2 class="text-2xl font-bold text-dark">Your Top Match</h2>
+                            <span class="high-match match-badge">92% Match</span>
+                        </div>
+                        
+                        <div class="flex items-center mb-8">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="ml-6">
+                                <h3 class="font-bold text-2xl">Alex Morgan</h3>
+                                <p class="text-gray-600 text-lg">Software Engineer, 28</p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">Early Bird</span>
+                                    <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Neat Freak</span>
+                                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Quiet</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 class="font-semibold text-xl mb-4">Compatibility Highlights</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 text-xl mr-3"></i>
+                                    <span class="text-gray-700">Both prefer quiet evenings and early bedtimes</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 text-xl mr-3"></i>
+                                    <span class="text-gray-700">Similar standards for cleanliness</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 text-xl mr-3"></i>
+                                    <span class="text-gray-700">Compatible work schedules</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold text-xl mb-4">Suggested Room</h3>
+                            <div class="flex items-center bg-gray-50 p-4 rounded-xl">
+                                <i class="fas fa-home text-primary text-3xl mr-4"></i>
+                                <div>
+                                    <p class="font-bold text-lg">Sunrise Apartment #203</p>
+                                    <p class="text-gray-600">2nd floor, balcony, quiet area</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute -bottom-8 -left-8 w-40 h-40 bg-primary rounded-full opacity-10"></div>
+                    <div class="absolute -top-8 -right-8 w-32 h-32 bg-secondary rounded-full opacity-10"></div>
+                    <div class="absolute top-1/2 -right-12 w-24 h-24 bg-accent rounded-full opacity-10"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floral Divider -->
+    <div class="floral-divider"></div>
+
+    <!-- How It Works Section -->
+    <section class="page-section bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <h2 class="section-title">How Our Matching System Works</h2>
+                <p class="text-xl text-gray-600">Our AI-powered process ensures you find the most compatible roommate with minimal effort</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="card p-8 text-center">
+                    <div class="feature-icon mx-auto">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3 class="font-bold text-2xl mb-4">1. Voice Survey</h3>
+                    <p class="text-gray-600 text-lg">Answer a few simple questions through our conversational voice interface powered by Omnidim.io</p>
+                </div>
+                
+                <div class="card p-8 text-center">
+                    <div class="feature-icon mx-auto">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="font-bold text-2xl mb-4">2. AI Analysis</h3>
+                    <p class="text-gray-600 text-lg">Our algorithm analyzes your responses to find the most compatible matches</p>
+                </div>
+                
+                <div class="card p-8 text-center">
+                    <div class="feature-icon mx-auto">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="font-bold text-2xl mb-4">3. Perfect Match</h3>
+                    <p class="text-gray-600 text-lg">Get introduced to your ideal roommate and find the perfect co-living space</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="page-section bg-primaryLight">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <h2 class="section-title">Why Choose SheBuilds</h2>
+                <p class="text-xl text-gray-600">Designed specifically for women's co-living spaces with privacy and safety in mind</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="card p-6">
+                            <div class="text-3xl text-primary mb-4">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <h3 class="font-bold text-xl mb-3">Women-Only Spaces</h3>
+                            <p class="text-gray-600">Exclusive matching for female-identifying individuals</p>
+                        </div>
+                        
+                        <div class="card p-6">
+                            <div class="text-3xl text-secondary mb-4">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3 class="font-bold text-xl mb-3">Compatibility Focus</h3>
+                            <p class="text-gray-600">Matches based on lifestyle, habits, values and preferences</p>
+                        </div>
+                        
+                        <div class="card p-6">
+                            <div class="text-3xl text-accent mb-4">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <h3 class="font-bold text-xl mb-3">Privacy First</h3>
+                            <p class="text-gray-600">Your data is protected with end-to-end encryption</p>
+                        </div>
+                        
+                        <div class="card p-6">
+                            <div class="text-3xl text-primary mb-4">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3 class="font-bold text-xl mb-3">Community Support</h3>
+                            <p class="text-gray-600">Access to forums, events and resources for our community</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-1 lg:order-2">
+                    <h3 class="text-3xl font-bold text-dark mb-6">Building Safe and Supportive Living Environments</h3>
+                    <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                        At SheBuilds, we understand the importance of feeling safe and comfortable in your living space. Our platform is designed specifically for women who want to find compatible roommates in a secure, supportive environment.
+                    </p>
+                    <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+                        We go beyond basic matching to consider factors like daily routines, social preferences, and personal values to create harmonious living situations where everyone feels respected and understood.
+                    </p>
+                    <div class="flex items-center">
+                        <div class="flex -space-x-3 mr-4">
+                            <div class="user-avatar w-14 h-14">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                            <div class="user-avatar w-14 h-14">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                            <div class="user-avatar w-14 h-14">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="font-medium">Join over <span class="text-primary">5,000</span> women who found their perfect match</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="page-section bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <h2 class="section-title">Success Stories</h2>
+                <p class="text-xl text-gray-600">Hear from women who found their perfect roommate match</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card p-8 bg-primaryLight testimonial-card">
+                    <div class="flex items-center mb-6">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="ml-5">
+                            <h3 class="font-bold text-xl">Priya S.</h3>
+                            <p class="text-gray-600">Software Developer</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">
+                        "After moving to a new city for work, I was nervous about finding a roommate. SheBuilds matched me with someone who has the same work schedule and cleanliness standards. It's been perfect!"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600">95% match</span>
+                    </div>
+                </div>
+                
+                <div class="card p-8 bg-primaryLight testimonial-card">
+                    <div class="flex items-center mb-6">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="ml-5">
+                            <h3 class="font-bold text-xl">Maria L.</h3>
+                            <p class="text-gray-600">Medical Student</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">
+                        "As a night-shift nurse, I needed a roommate who understood my schedule. The AI matching found someone with similar sleep patterns. We've been living together for 8 months now!"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="text-gray-600">92% match</span>
+                    </div>
+                </div>
+                
+                <div class="card p-8 bg-primaryLight testimonial-card">
+                    <div class="flex items-center mb-6">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="ml-5">
+                            <h3 class="font-bold text-xl">Aisha K.</h3>
+                            <p class="text-gray-600">Graphic Designer</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">
+                        "The voice survey made it so easy to share my preferences naturally. I was matched with an amazing artist who shares my values and lifestyle. Couldn't be happier with the experience!"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600">97% match</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-primary to-secondary">
+        <div class="max-w-5xl mx-auto text-center px-4">
+            <h2 class="text-4xl font-bold text-white mb-6">Ready to Find Your Perfect Roommate?</h2>
+            <p class="text-xl text-pink-100 mb-10 max-w-2xl mx-auto">
+                Join thousands of women who have found harmonious living situations through our AI-powered matching system.
+            </p>
+            <button id="startSurveyBtn3" class="btn-primary bg-white text-primary text-lg font-bold hover:bg-gray-100 hover:scale-105 transform transition-all">
+                <i class="fas fa-microphone mr-3"></i> Start Voice Survey Now
+            </button>
+            <p class="text-pink-100 mt-8">
+                <i class="fas fa-lock mr-2"></i> Your privacy is protected. We never share your data without permission.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                            <i class="fas fa-female text-white text-2xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">SheBuilds</h2>
+                    </div>
+                    <p class="text-gray-400 mb-6">
+                        AI-powered roommate matching for women's co-living spaces. Creating harmonious living environments through technology.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Navigation</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">How It Works</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Testimonials</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Resources</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Roommate Guide</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Safety Tips</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Contact Us</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3"></i>
+                            <span>hello@shebuilds.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone mt-1 mr-3"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3"></i>
+                            <span>123 Innovation Blvd, Tech City</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
+                <p>© 2023 SheBuilds. All rights reserved. Designed with <i class="fas fa-heart text-red-500"></i> for women's co-living spaces.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Survey Modal -->
+    <div id="surveyModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-dark">Roommate Compatibility Survey</h3>
+                    <button id="closeSurveyBtn" class="text-gray-500 hover:text-gray-700 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="mt-4">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill w-1/5"></div>
+                    </div>
+                    <div class="flex justify-between text-gray-600 mt-2">
+                        <span class="font-medium">Question <span id="currentQuestion">1</span> of 5</span>
+                        <span id="timeIndicator" class="flex items-center">
+                            <i class="fas fa-microphone mr-2"></i> Voice Enabled
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="surveyContainer" class="p-6 overflow-y-auto" style="max-height: 60vh;">
+                <!-- Survey questions will be loaded here -->
+            </div>
+            
+            <div class="p-6 border-t flex justify-between">
+                <button id="prevQuestionBtn" class="px-6 py-3 text-gray-600 rounded-lg border border-gray-300 hover:border-gray-400 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-arrow-left mr-2"></i> Back
+                </button>
+                <button id="nextQuestionBtn" class="px-6 py-3 bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-lg font-medium">
+                    Next <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-dark">Complete Your Profile</h3>
+                    <button id="closeRegisterBtn" class="text-gray-500 hover:text-gray-700 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <p class="text-gray-600 mt-2">Just a few more details to find your perfect match</p>
+            </div>
+            
+            <div class="p-6">
+                <form id="registrationForm">
+                    <div class="mb-5">
+                        <label class="block text-gray-700 mb-2 font-medium" for="name">Full Name</label>
+                        <input type="text" id="name" class="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                    </div>
+                    
+                    <div class="mb-5">
+                        <label class="block text-gray-700 mb-2 font-medium" for="email">Email Address</label>
+                        <input type="email" id="email" class="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                    </div>
+                    
+                    <div class="mb-5">
+                        <label class="block text-gray-700 mb-2 font-medium" for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-gray-700 mb-2 font-medium" for="age">Age</label>
+                        <input type="number" id="age" min="18" max="99" class="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                    </div>
+                    
+                    <button type="submit" class="w-full btn-primary py-4 text-lg font-bold">
+                        Complete Registration
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voice Assistant Indicator -->
+    <div id="voiceAssistant" class="fixed bottom-8 right-8 bg-white rounded-full shadow-xl p-4 cursor-pointer hover:shadow-2xl transition-all z-40">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+            <i class="fas fa-microphone text-white text-2xl"></i>
+        </div>
+        <div id="voiceStatus" class="absolute -top-2 -right-2 bg-secondary text-white text-xs px-2 py-1 rounded-full hidden">
+            <span class="voice-indicator"></span> Listening
+        </div>
+    </div>
+
+    <script>
+        // Survey data
+        const surveyQuestions = [
+            {
+                id: "cleanliness",
+                type: "rating",
+                question: "On a scale of 1 to 5, how important is cleanliness to you in your living space?",
+                options: ["1 - Not important", "2 - Slightly important", "3 - Moderately important", 
+                          "4 - Very important", "5 - Extremely important"],
+                follow_up: "Can you tell me more about your cleaning habits?"
+            },
+            {
+                id: "sleep_schedule",
+                type: "choice",
+                question: "Would you describe yourself as an early bird or a night owl?",
+                options: ["Early bird - I go to bed early and wake up early", 
+                          "Night owl - I stay up late and wake up later",
+                          "Somewhere in between - I'm flexible with my schedule"],
+                follow_up: "What time do you usually go to bed and wake up?"
+            },
+            {
+                id: "work_hours",
+                type: "open",
+                question: "Can you tell me about your typical work or study schedule?",
+                hints: ["Do you work regular 9-5 hours?", "Do you have a flexible schedule?", 
+                         "Do you work shifts or irregular hours?"]
+            },
+            {
+                id: "social",
+                type: "choice",
+                question: "How would you describe your social preferences?",
+                options: ["I'm quite introverted and prefer quiet time at home",
+                          "I'm somewhat social but also enjoy alone time",
+                          "I'm very social and love having people over"],
+                follow_up: "How do you feel about having guests or hosting social gatherings?"
+            },
+            {
+                id: "noise",
+                type: "choice",
+                question: "How sensitive are you to noise when you're trying to sleep or concentrate?",
+                options: ["Very sensitive - I need complete quiet",
+                          "Somewhat sensitive - I can handle some noise",
+                          "Not sensitive - Noise doesn't bother me much"],
+                follow_up: "Are there any specific sounds that particularly bother you?"
+            }
+        ];
+
+        // State management
+        let currentQuestion = 0;
+        let surveyAnswers = {};
+        let recognition;
+        let isListening = false;
+        let voiceSupported = true;
+
+        // DOM Elements
+        const surveyModal = document.getElementById('surveyModal');
+        const registerModal = document.getElementById('registerModal');
+        const startSurveyBtn = document.getElementById('startSurveyBtn');
+        const startSurveyBtn2 = document.getElementById('startSurveyBtn2');
+        const startSurveyBtn3 = document.getElementById('startSurveyBtn3');
+        const closeSurveyBtn = document.getElementById('closeSurveyBtn');
+        const closeRegisterBtn = document.getElementById('closeRegisterBtn');
+        const surveyContainer = document.getElementById('surveyContainer');
+        const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+        const prevQuestionBtn = document.getElementById('prevQuestionBtn');
+        const progressFill = document.getElementById('progressFill');
+        const currentQuestionSpan = document.getElementById('currentQuestion');
+        const registrationForm = document.getElementById('registrationForm');
+        const voiceAssistant = document.getElementById('voiceAssistant');
+        const voiceStatus = document.getElementById('voiceStatus');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        const timeIndicator = document.getElementById('timeIndicator');
+
+        // Initialize the survey
+        function initSurvey() {
+            currentQuestion = 0;
+            surveyAnswers = {};
+            updateProgress();
+            renderQuestion();
+            surveyModal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        // Render current question
+        function renderQuestion() {
+            const question = surveyQuestions[currentQuestion];
+            currentQuestionSpan.textContent = currentQuestion + 1;
+            
+            let questionHTML = `
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-6">${question.question}</h3>
+            `;
+            
+            if (question.type === 'rating') {
+                questionHTML += `
+                    <div class="flex justify-between mb-6">
+                        ${question.options.map((option, index) => `
+                            <button class="survey-option flex-1 mx-1 ${surveyAnswers[question.id] === index + 1 ? 'selected' : ''}" 
+                                    data-value="${index + 1}">
+                                <div class="text-center py-2">
+                                    <div class="text-2xl font-bold mb-1 text-primary">${index + 1}</div>
+                                    <div class="text-sm">${option.split(' - ')[1]}</div>
+                                </div>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            } 
+            else if (question.type === 'choice') {
+                questionHTML += `
+                    <div class="space-y-4">
+                        ${question.options.map((option, index) => `
+                            <div class="survey-option ${surveyAnswers[question.id] === option ? 'selected' : ''}" 
+                                 data-value="${option}">
+                                <div class="flex items-center">
+                                    <div class="w-7 h-7 rounded-full border-2 mr-4 flex items-center justify-center">
+                                        ${surveyAnswers[question.id] === option ? '<i class="fas fa-check text-xs text-primary"></i>' : ''}
+                                    </div>
+                                    <span class="font-medium">${option}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } 
+            else if (question.type === 'open') {
+                questionHTML += `
+                    <div class="mb-5">
+                        <textarea id="openAnswer" class="w-full px-5 py-4 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" 
+                                  rows="4" placeholder="Type your answer here...">${surveyAnswers[question.id] || ''}</textarea>
+                    </div>
+                    <div class="text-sm text-gray-600 mb-6 bg-primaryLight p-4 rounded-xl">
+                        <p class="font-medium text-primary mb-2">Consider mentioning:</p>
+                        <ul class="list-disc pl-5 text-primary">
+                            ${question.hints.map(hint => `<li>${hint}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            questionHTML += `
+                <div class="mt-8 p-5 bg-primaryLight rounded-xl border border-primary">
+                    <div class="flex items-center text-primary">
+                        <i class="fas fa-lightbulb mr-3 text-xl"></i>
+                        <span class="font-bold">Tip:</span>
+                    </div>
+                    <p class="mt-3 text-primary">${question.follow_up}</p>
+                </div>
+            `;
+            
+            // Add voice input section if supported
+            if (voiceSupported) {
+                questionHTML += `
+                <div class="mt-8 flex flex-col items-center">
+                    <p class="text-gray-600 mb-4">Or answer using your voice:</p>
+                    <button id="voiceInputBtn" class="px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold flex items-center text-lg hover:opacity-90">
+                        <i class="fas fa-microphone mr-3"></i> 
+                        <span>Answer by Voice</span>
+                    </button>
+                    <div id="voiceWave" class="voice-wave mt-4 hidden">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                `;
+            }
+            
+            questionHTML += `</div>`;
+            
+            surveyContainer.innerHTML = questionHTML;
+            
+            // Add event listeners to options
+            document.querySelectorAll('.survey-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.survey-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    
+                    const value = this.getAttribute('data-value');
+                    surveyAnswers[question.id] = value;
+                });
+            });
+            
+            // Add event listener to voice button
+            if (voiceSupported && document.getElementById('voiceInputBtn')) {
+                document.getElementById('voiceInputBtn').addEventListener('click', startVoiceRecognition);
+            }
+            
+            // Update button states
+            prevQuestionBtn.disabled = currentQuestion === 0;
+            
+            // Set focus to textarea for open questions
+            if (question.type === 'open' && document.getElementById('openAnswer')) {
+                document.getElementById('openAnswer').focus();
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / surveyQuestions.length) * 100;
+            progressFill.style.width = `${progress}%`;
+        }
+
+        // Show toast notification
+        function showToast(message, isSuccess = true) {
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            toast.style.backgroundColor = isSuccess ? '#BA68C8' : '#FF8A65';
+            toast.style.color = 'white';
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // Check for voice recognition support
+        function checkVoiceSupport() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                voiceSupported = true;
+                timeIndicator.innerHTML = '<i class="fas fa-microphone mr-2"></i> Voice Enabled';
+            } else {
+                voiceSupported = false;
+                timeIndicator.innerHTML = '<i class="fas fa-keyboard mr-2"></i> Text Input Only';
+                showToast('Voice recognition not supported in your browser. Using text input.', false);
+            }
+        }
+
+        // Initialize voice recognition
+        function initVoiceRecognition() {
+            if (voiceSupported) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+                
+                recognition.onstart = function() {
+                    isListening = true;
+                    document.getElementById('voiceInputBtn').classList.add('voice-active');
+                    voiceStatus.classList.remove('hidden');
+                    document.getElementById('voiceWave').classList.remove('hidden');
+                };
+                
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    const question = surveyQuestions[currentQuestion];
+                    
+                    if (question.type === 'open') {
+                        document.getElementById('openAnswer').value = transcript;
+                        surveyAnswers[question.id] = transcript;
+                    } else if (question.type === 'choice') {
+                        // Find the best matching option
+                        const bestMatch = findBestMatch(transcript, question.options);
+                        if (bestMatch) {
+                            surveyAnswers[question.id] = bestMatch;
+                            renderQuestion(); // Re-render to show selection
+                        }
+                    } else if (question.type === 'rating') {
+                        // Extract number from transcript
+                        const match = transcript.match(/\d+/);
+                        if (match) {
+                            const rating = parseInt(match[0]);
+                            if (rating >= 1 && rating <= 5) {
+                                surveyAnswers[question.id] = rating;
+                                renderQuestion(); // Re-render to show selection
+                            }
+                        }
+                    }
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error', event.error);
+                    showToast('Voice recognition failed. Please try again or use text input.', false);
+                };
+                
+                recognition.onend = function() {
+                    isListening = false;
+                    if (document.getElementById('voiceInputBtn')) {
+                        document.getElementById('voiceInputBtn').classList.remove('voice-active');
+                    }
+                    voiceStatus.classList.add('hidden');
+                    if (document.getElementById('voiceWave')) {
+                        document.getElementById('voiceWave').classList.add('hidden');
+                    }
+                };
+            } else {
+                showToast('Voice recognition not supported in your browser. Please use text input.', false);
+            }
+        }
+
+        // Start voice recognition
+        function startVoiceRecognition() {
+            if (!recognition) {
+                initVoiceRecognition();
+            }
+            
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        }
+
+        // Find best matching option for voice input
+        function findBestMatch(transcript, options) {
+            const cleanTranscript = transcript.toLowerCase();
+            let bestMatch = null;
+            let bestScore = 0;
+            
+            options.forEach(option => {
+                const cleanOption = option.toLowerCase();
+                // Simple matching - could be enhanced with more advanced NLP
+                if (cleanTranscript.includes(cleanOption) || cleanOption.includes(cleanTranscript)) {
+                    const score = cleanOption.length;
+                    if (score > bestScore) {
+                        bestMatch = option;
+                        bestScore = score;
+                    }
+                }
+            });
+            
+            return bestMatch;
+        }
+
+        // Submit survey data to API
+        async function submitSurveyData(userData) {
+            // Prepare payload
+            const payload = {
+                responses: surveyAnswers,
+                user_data: userData
+            };
+            
+            // Show loading state
+            const submitBtn = registrationForm.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Send data to the API endpoint
+                const response = await fetch('http://localhost:8000/api/v1/omnidim/survey/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Success
+                    showToast('Registration successful! Redirecting to dashboard...');
+                    
+                    // Close modals
+                    registerModal.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                    
+                    // Redirect to dashboard after a delay
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                } else {
+                    // API returned an error
+                    showToast(`Error: ${data.message || 'Failed to submit data'}`, false);
+                }
+            } catch (error) {
+                // Network error
+                console.error('API request failed:', error);
+                showToast('Network error: Could not connect to the server', false);
+            } finally {
+                // Reset button state
+                submitBtn.innerHTML = 'Complete Registration';
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Event Listeners
+        startSurveyBtn.addEventListener('click', initSurvey);
+        startSurveyBtn2.addEventListener('click', initSurvey);
+        startSurveyBtn3.addEventListener('click', initSurvey);
+
+        closeSurveyBtn.addEventListener('click', function() {
+            surveyModal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        });
+
+        closeRegisterBtn.addEventListener('click', function() {
+            registerModal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        });
+
+        nextQuestionBtn.addEventListener('click', function() {
+            const question = surveyQuestions[currentQuestion];
+            
+            // Validate current question
+            if (!surveyAnswers[question.id]) {
+                if (question.type === 'open') {
+                    surveyAnswers[question.id] = document.getElementById('openAnswer').value;
+                } else {
+                    showToast('Please answer this question before proceeding', false);
+                    return;
+                }
+            }
+            
+            // Move to next question or finish
+            if (currentQuestion < surveyQuestions.length - 1) {
+                currentQuestion++;
+                updateProgress();
+                renderQuestion();
+            } else {
+                // Survey completed, show registration
+                surveyModal.classList.add('hidden');
+                registerModal.classList.remove('hidden');
+            }
+        });
+
+        prevQuestionBtn.addEventListener('click', function() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                updateProgress();
+                renderQuestion();
+            }
+        });
+
+        registrationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Gather form data
+            const userData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                age: document.getElementById('age').value
+            };
+            
+            // Submit data to API
+            submitSurveyData(userData);
+        });
+
+        // Voice assistant button
+        voiceAssistant.addEventListener('click', function() {
+            if (voiceSupported) {
+                initVoiceRecognition();
+                startVoiceRecognition();
+            } else {
+                showToast('Voice recognition not supported in your browser', false);
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            checkVoiceSupport();
+            
+            // For demo purposes, pre-fill some survey answers
+            surveyAnswers = {
+                cleanliness: "4",
+                sleep_schedule: "Early bird - I go to bed early and wake up early",
+                work_hours: "I work regular 9-5 hours with occasional overtime",
+                social: "I'm somewhat social but also enjoy alone time",
+                noise: "Somewhat sensitive - I can handle some noise"
+            };
+        });
+    </script>
+</body>
+</html>

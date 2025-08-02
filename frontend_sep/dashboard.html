@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Living Spaces</title>
+    <meta name="description" content="Find your perfect roommate with AI-powered matching. Chat with our voice assistant, get matched instantly, and discover your dream shared space.">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Lottie Animation -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+        <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <h2 class="nav__logo">
+                    <lottie-player 
+                        src="https://assets2.lottiefiles.com/packages/lf20_qp1q7mct.json" 
+                        background="transparent" 
+                        speed="1" 
+                        style="width: 30px; height: 30px; display: inline-block; margin-right: 8px;"
+                        loop 
+                        autoplay>
+                    </lottie-player>
+                    Living Spaces
+                </h2>
+            </div>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="index.html" class="nav__link">Home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="index.html#how-it-works" class="nav__link">How It Works</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="dashboard.html" class="nav__link">Swipe & Match</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="index.html#rooms" class="nav__link">Rooms</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="index.html#about" class="nav__link">About</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav__actions">
+                <button class="btn btn--ghost btn--sm" id="login-btn">Log In</button>
+                <a href="admin.html" class="btn btn--outline btn--sm" id="admin-link" style="display: none;">Admin</a>
+                <button class="nav__toggle" id="nav-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+        <!-- Main App Container -->
+    <div id="app-container">
+        <!-- Swipe & Match Page -->
+        <div id="swipe-match-page" class="page">
+            <section class="swipe-match">
+                <div class="container">
+                    <div class="section__header">
+                        <h2 class="section__title">
+                            <lottie-player 
+                                src="https://assets1.lottiefiles.com/packages/lf20_khtt8wfm.json" 
+                                background="transparent" 
+                                speed="1" 
+                                style="width: 40px; height: 40px; display: inline-block; margin-right: 10px;"
+                                loop 
+                                autoplay>
+                            </lottie-player>
+                            Find Your Perfect Match
+                        </h2>
+                        <p class="section__description">Swipe through AI-matched roommate profiles</p>
+                    </div>
+
+                    <div class="match-interface">
+                        <!-- Filters Sidebar -->
+                        <div class="match-filters glass-card">
+                            <h3>Dynamic Filters</h3>
+                            <div class="filter-item">
+                                <label>Budget Range</label>
+                                <input type="range" min="0" max="2000" value="1000" class="budget-slider">
+                                <span>$<span id="budget-value">1000</span>/month</span>
+                            </div>
+                            <div class="filter-item">
+                                <label>Lifestyle</label>
+                                <select class="glass-input">
+                                    <option>All Lifestyles</option>
+                                    <option>Chill</option>
+                                    <option>Active</option>
+                                    <option>Night Owl</option>
+                                    <option>Early Bird</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label>Cleanliness Level</label>
+                                <select class="glass-input">
+                                    <option>Any Level</option>
+                                    <option>Very Tidy</option>
+                                    <option>Moderate</option>
+                                    <option>Relaxed</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label>Work from Home</label>
+                                <input type="checkbox" id="wfh-toggle"> <span>WFH Friendly</span>
+                            </div>
+                            
+                            <!-- Smart Match Explainer -->
+                            <div class="match-explainer glass-card">
+                                <h4>🎯 Smart Match Logic</h4>
+                                <p>Based on your survey and behavioral patterns, we've calculated the best fit using our AI algorithm. Factors: sleep cycle, cleanliness, noise tolerance, and shared interests.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card Stack -->
+                        <div class="card-stack">
+                            <div id="roommate-cards">
+                                <!-- Cards will be populated by JavaScript -->
+                            </div>
+                            
+                            <!-- Swipe Buttons -->
+                            <div class="swipe-actions">
+                                <button class="btn btn--skip" id="skip-btn">
+                                    <i class="fas fa-times"></i>
+                                    <span>Skip</span>
+                                </button>
+                                <button class="btn btn--match" id="match-btn">
+                                    <i class="fas fa-heart"></i>
+                                    <span>Match</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- AI Assistant Panel -->
+                        <div class="ai-assistant-panel glass-card">
+                            <div class="assistant-avatar">
+                                <lottie-player 
+                                    src="https://assets2.lottiefiles.com/packages/lf20_qp1q7mct.json" 
+                                    background="transparent" 
+                                    speed="1" 
+                                    style="width: 50px; height: 50px;"
+                                    loop 
+                                    autoplay>
+                                </lottie-player>
+                            </div>
+                            <div class="assistant-message">
+                                <h4>Hi Monika 👋!</h4>
+                                <p>Want to see only high-score matches or explore all? I can help!</p>
+                                <div class="assistant-actions">
+                                    <button class="btn btn--sm btn--primary">High Scores Only</button>
+                                    <button class="btn btn--sm btn--secondary">Show All</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Match Success Modal -->
+    <div id="match-modal" class="modal hidden">
+        <div class="modal__overlay"></div>
+        <div class="modal__content glass-card">
+            <div class="match-success">
+                <lottie-player 
+                    src="https://assets5.lottiefiles.com/packages/lf20_khfxaekd.json" 
+                    background="transparent" 
+                    speed="1" 
+                    style="width: 100px; height: 100px; margin: 0 auto;"
+                    loop 
+                    autoplay>
+                </lottie-player>
+                <h2>✅ It's a Match!</h2>
+                <p>You and <span id="match-name">Priya</span> both liked each other.</p>
+                <p>Start a chat or schedule a video intro?</p>
+                <div class="match-actions">
+                    <button class="btn btn--primary">
+                        <i class="fas fa-video"></i> Schedule Call
+                    </button>
+                    <button class="btn btn--secondary">
+                        <i class="fas fa-comments"></i> Start Chat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <lottie-player 
+                src="https://assets3.lottiefiles.com/packages/lf20_p8bfn5to.json" 
+                background="transparent" 
+                speed="1" 
+                style="width: 100px; height: 100px;"
+                loop 
+                autoplay>
+            </lottie-player>
+            <p>Finding your perfect matches...</p>
+        </div>
+    </div>
+
+    
+
+        <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

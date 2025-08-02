@@ -26,11 +26,15 @@
 
 ## 🖼️ Screenshots
 
-| Voice Survey | Registration | Match Swipe |
-|--------------|--------------|--------------|
-| ![voice](docs/screens/voice.png) | ![signup](docs/screens/signup.png) | ![swipe](docs/screens/swipe.png) |
+### 🏠 Dashboard
+![Dashboard](frontend/assets/home.png)
 
----
+### 🛏️ Rooms
+![Rooms](frontend/assets/rooms.png)
+
+### 🔄 Match Swipe
+![Match Swipe](frontend/assets/match.png)
+
 
 ## 🧠 Tech Stack
 

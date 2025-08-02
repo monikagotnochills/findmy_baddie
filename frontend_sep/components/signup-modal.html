@@ -1,0 +1,36 @@
+<!-- Signup Modal Component -->
+<!-- Sign Up Modal -->
+    <div id="signup-modal" class="modal hidden">
+        <div class="modal__overlay"></div>
+        <div class="modal__content glass-card">
+            <div class="modal__header">
+                <h2 class="modal__title">Create Your Account</h2>
+                <button class="modal__close" id="close-signup-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal__body">
+                <form class="signup-form">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-control glass-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-control glass-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" name="phone" class="form-control glass-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Age</label>
+                        <input type="text" name="age" class="form-control glass-input" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">
+                        Create Account & Start Matching
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>

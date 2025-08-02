@@ -1,0 +1,196 @@
+/* Dashboard Page Styles */
+
+.swipe-match {
+    padding: 2rem 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.match-interface {
+    display: grid;
+    grid-template-columns: 300px 1fr 300px;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.match-filters {
+    padding: 1.5rem;
+    height: fit-content;
+}
+
+.match-filters h3 {
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+.filter-item {
+    margin-bottom: 1.5rem;
+}
+
+.filter-item label {
+    display: block;
+    color: white;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.budget-slider {
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
+.card-stack {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.roommate-card {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.card-image {
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.card-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.card-age {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.compatibility-score {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    color: white;
+}
+
+.score-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.card-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.swipe-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn--skip {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid rgba(255, 107, 107, 0.5);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+}
+
+.btn--match {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: 2px solid rgba(102, 126, 234, 0.5);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+}
+
+.ai-assistant-panel {
+    padding: 1.5rem;
+    height: fit-content;
+}
+
+.assistant-avatar {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.assistant-message h4 {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.assistant-message p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1rem;
+}
+
+.assistant-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.match-explainer {
+    margin-top: 2rem;
+    padding: 1rem;
+}
+
+.match-explainer h4 {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.match-explainer p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .match-interface {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .match-filters,
+    .ai-assistant-panel {
+        order: 2;
+    }
+}

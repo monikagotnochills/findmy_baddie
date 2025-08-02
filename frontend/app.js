@@ -1126,6 +1126,9 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
         // Initialize speech recognition
         initSpeechRecognition();
+        console.log(AppState.surveyAnswers)
+
+        
         
         // Setup navigation - Fixed event listeners
         document.querySelectorAll('.nav__link').forEach(link => {
@@ -1231,15 +1234,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeSignUpModal();
             });
         }
-        
-        if (signupModal) {
-            signupModal.addEventListener('click', function(e) {
-                if (e.target === signupModal) {
-                    closeSignUpModal();
-                }
-            });
-            
-            const signupForm = signupModal.querySelector('.signup-form');
+
+                   const signupForm = signupModal.querySelector('.signup-form');
 if (signupForm) {
     signupForm.addEventListener('submit', async function (e) {
         e.preventDefault();
@@ -1251,13 +1247,27 @@ if (signupForm) {
             formObject[key] = value;
         });
 
+
+        const mappedAnswers = {
+            cleanliness: AppState.surveyAnswers[1],
+            sleep_schedule: AppState.surveyAnswers[2],
+            work_hours: AppState.surveyAnswers[3],
+            social: AppState.surveyAnswers[4],
+            noise: AppState.surveyAnswers[5]
+        };
+
+        const payload = {
+            responses: mappedAnswers,
+            user_data: formObject  // Keep it as an object, no need to JSON.stringify here
+        };
+
         try {
             const response = await fetch('http://localhost:8000/api/v1/omnidim/survey/submit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formObject)
+                body: JSON.stringify(payload)  // ✅ Corrected line
             });
 
             if (!response.ok) {
@@ -1276,11 +1286,11 @@ if (signupForm) {
         } catch (err) {
             console.error('❌ Error submitting form:', err);
             alert('Something went wrong while submitting the form. Please try again later.');
+            closeSignUpModal();
+            showPage('swipe-match');
         }
     });
 }
-
-        }
         
         // Setup admin access
         const loginBtn = document.getElementById('login-btn');
@@ -1361,6 +1371,16 @@ if (signupForm) {
         
         // Setup room functionality
         renderRooms(AppState.allRooms);
+
+                if (signupModal) {
+            signupModal.addEventListener('click', function(e) {
+                if (e.target === signupModal) {
+                    closeSignUpModal();
+                }
+            });
+            
+
+        }
         
         const priceFilter = document.getElementById('price-filter');
         const typeFilter = document.getElementById('type-filter');

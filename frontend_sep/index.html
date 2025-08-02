@@ -5,23 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Living Spaces - AI-Powered Roommate Matching</title>
     <meta name="description" content="Find your perfect roommate with AI-powered matching. Chat with our voice assistant, get matched instantly, and discover your dream shared space.">
-    
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Lottie Animation -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
-    <script id="omnidimension-web-widget" async src="https://backend.omnidim.io/web_widget.js?secret_key=da8ab0a283e1c3f33f716d2d9a0a64c9" ></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
     
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
+        <!-- Header -->
     <header class="header">
         <nav class="nav container">
             <div class="nav__brand">
@@ -34,82 +33,41 @@
                         loop 
                         autoplay>
                     </lottie-player>
-                    Find My Baddie
+                    Living Spaces
                 </h2>
             </div>
-            
+
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list">
                     <li class="nav__item">
-                        <a href="#home" class="nav__link active">Home</a>
+                        <a href="index.html" class="nav__link">Home</a>
                     </li>
                     <li class="nav__item">
-                        <a href="#how-it-works" class="nav__link">How It Works</a>
+                        <a href="index.html#how-it-works" class="nav__link">How It Works</a>
                     </li>
                     <li class="nav__item">
-                        <a href="#swipe-match" class="nav__link">Swipe & Match</a>
+                        <a href="dashboard.html" class="nav__link">Swipe & Match</a>
                     </li>
                     <li class="nav__item">
-                        <a href="#rooms" class="nav__link">Rooms</a>
+                        <a href="index.html#rooms" class="nav__link">Rooms</a>
                     </li>
                     <li class="nav__item">
-                        <a href="#about" class="nav__link">About</a>
+                        <a href="index.html#about" class="nav__link">About</a>
                     </li>
                 </ul>
             </div>
-            
-<div class="nav__actions" style="
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  position: relative;
-  z-index: 10;
-">
-  <!-- Log In Button -->
-  <button class="btn btn--ghost btn--sm" id="login-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
-    Log In
-  </button>
 
-  <!-- Profile section with dropdown -->
-  <div class="profile-section" style="position: relative;">
-    <!-- Profile Picture -->
-    <img src="https://i.pravatar.cc/60" alt="Profile" id="profile-pic"
-         style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; cursor: pointer; box-shadow: 0 0 6px rgba(0,0,0,0.1);">
-
-    <!-- Dropdown Menu -->
-    <div class="dropdown-menu" id="profile-dropdown" style="
-      display: none;
-      position: absolute;
-      top: 110%;
-      right: 0;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      z-index: 1000;
-      min-width: 160px;
-    ">
-      <a href="/profile" style="display: block; padding: 10px 16px; text-decoration: none; color: #333;">My Profile</a>
-      <a href="/settings" style="display: block; padding: 10px 16px; text-decoration: none; color: #333;">Settings</a>
-      <a href="/logout" style="display: block; padding: 10px 16px; text-decoration: none; color: red;">Logout</a>
-    </div>
-  </div>
-
-  <!-- Admin Link (optional) -->
-  <a href="/admin" class="btn btn--outline btn--sm" id="admin-link" style="display: none;">
-    Admin
-  </a>
-
-  <!-- Menu Toggle Icon -->
-  <button class="nav__toggle" id="nav-toggle" style="background: none; border: none;">
-    <i class="fas fa-bars" style="font-size: 1.2rem;"></i>
-  </button>
-</div>
-
+            <div class="nav__actions">
+                <button class="btn btn--ghost btn--sm" id="login-btn">Log In</button>
+                <a href="admin.html" class="btn btn--outline btn--sm" id="admin-link" style="display: none;">Admin</a>
+                <button class="nav__toggle" id="nav-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </nav>
     </header>
 
-    <!-- Main App Container -->
+        <!-- Main App Container -->
     <div id="app-container">
         <!-- Home Page -->
         <div id="home-page" class="page active">
@@ -118,25 +76,6 @@
                 <div class="hero__bg"></div>
                 <div class="container hero__container">
                     <div class="hero__content">
-                        <div class="hero__branding" style="
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 3rem;
-  position: relative;
-  top: -4rem;
-">
-  <img src="assets/logo.png" alt="Logo"
-       style="
-         width: 128px;
-         height: 128px;
-         object-fit: cover;
-         border-radius: 50%;
-         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-         border: 3px solid #ffffff;
-       ">
-</div>
-
                         <h1 class="hero__title">
                             Find Your Perfect Roommate 
                             <span class="text-gradient">with AI</span>
@@ -419,7 +358,7 @@
                             <div class="filter-item">
                                 <label>Budget Range</label>
                                 <input type="range" min="0" max="2000" value="1000" class="budget-slider">
-                                <span>₹<span id="budget-value">1000</span>/month</span>
+                                <span>$<span id="budget-value">1000</span>/month</span>
                             </div>
                             <div class="filter-item">
                                 <label>Lifestyle</label>
@@ -855,33 +794,24 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="app.js"></script>
-    <script>
-    // Toggle dropdown
-    const profilePic = document.getElementById('profile-pic');
-    const dropdown = document.querySelector('.dropdown-menu');
+</body>
+</html
+        </div>
+    </div>
 
-    profilePic?.addEventListener('click', function (e) {
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    });
+    <!-- Modals -->
+    <div id="voice-modal" class="modal hidden">
+        <!-- Voice modal content will be loaded from components -->
+    </div>
 
-    // Close dropdown on outside click
-    document.addEventListener('click', function (e) {
-        if (!profilePic.contains(e.target) && !dropdown.contains(e.target)) {
-            dropdown.style.display = 'none';
-        }
-    });
+    <div id="signup-modal" class="modal hidden">
+        <!-- Signup modal content will be loaded from components -->
+    </div>
 
-    // Example logic to toggle login/profile (replace with real login check)
-    const isLoggedIn = true; // ← change to false to test
+    
 
-    if (isLoggedIn) {
-        document.getElementById('login-btn').style.display = 'none';
-        document.querySelector('.profile-section').style.display = 'block';
-    } else {
-        document.getElementById('login-btn').style.display = 'inline-block';
-        document.querySelector('.profile-section').style.display = 'none';
-    }
-</script>
-
+        <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

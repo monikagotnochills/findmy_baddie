@@ -110,10 +110,8 @@ def submit_survey():
             "noise": "Don't mind noise"
         }
 
-        newdataset = {
-            "responses": testdata,
-            "user_data": data
-        }
+        newdataset = data
+        print(newdataset)
 
         if not newdataset:
             return jsonify({'error': 'No data provided'}), 400

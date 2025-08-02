@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Living Spaces</title>
+    <meta name="description" content="Admin dashboard for Living Spaces roommate matching platform.">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Lottie Animation -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <nav class="nav container-fluid">
+            <div class="nav__brand">
+                <h2 class="nav__logo">
+                    <lottie-player 
+                        src="https://assets2.lottiefiles.com/packages/lf20_qp1q7mct.json" 
+                        background="transparent" 
+                        speed="1" 
+                        style="width: 30px; height: 30px; display: inline-block; margin-right: 8px;"
+                        loop 
+                        autoplay>
+                    </lottie-player>
+                    Living Spaces Admin
+                </h2>
+            </div>
+
+            <div class="nav__actions">
+                <div class="admin-user-info">
+                    <span class="admin-username">Admin User</span>
+                    <div class="admin-avatar">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                </div>
+                <a href="index.html" class="btn btn--outline btn--sm">
+                    <i class="fas fa-home"></i> Back to Site
+                </a>
+                <button class="btn btn--ghost btn--sm" id="admin-logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main App Container -->
+    <div id="app-container"><!-- Admin Dashboard Page -->
+        <div id="admin-page" class="page">
+            <section class="admin-dashboard">
+                <div class="container-fluid">
+                    <div class="admin-header">
+                        <h1>
+                            <lottie-player 
+                                src="https://assets9.lottiefiles.com/packages/lf20_khtt8wfm.json" 
+                                background="transparent" 
+                                speed="1" 
+                                style="width: 40px; height: 40px; display: inline-block; margin-right: 10px;"
+                                loop 
+                                autoplay>
+                            </lottie-player>
+                            Admin Dashboard
+                        </h1>
+                        <button class="btn btn--secondary" id="back-to-home">
+                            <i class="fas fa-arrow-left"></i> Back to Home
+                        </button>
+                    </div>
+
+                    <!-- Dashboard Stats -->
+                    <div class="admin-stats">
+                        <div class="stat-card glass-card">
+                            <h3>Total Users</h3>
+                            <div class="stat-number">15,420</div>
+                            <div class="stat-trend">↑ 12% this month</div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <h3>Active Users</h3>
+                            <div class="stat-number">8,934</div>
+                            <div class="stat-trend">↑ 5% this week</div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <h3>Matches Made</h3>
+                            <div class="stat-number">5,678</div>
+                            <div class="stat-trend">↑ 18% this month</div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <h3>Safety Score</h3>
+                            <div class="stat-number">98.5%</div>
+                            <div class="stat-trend">↑ 2% improvement</div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Controls -->
+                    <div class="admin-content">
+                        <div class="admin-sidebar glass-card">
+                            <h3>Admin Controls</h3>
+                            <nav class="admin-nav">
+                                <a href="#" class="admin-nav-item active" data-tab="users">
+                                    <i class="fas fa-users"></i> User Management
+                                </a>
+                                <a href="#" class="admin-nav-item" data-tab="moderation">
+                                    <i class="fas fa-shield-alt"></i> Content Moderation
+                                </a>
+                                <a href="#" class="admin-nav-item" data-tab="analytics">
+                                    <i class="fas fa-chart-bar"></i> Analytics
+                                </a>
+                                <a href="#" class="admin-nav-item" data-tab="safety">
+                                    <i class="fas fa-heart-pulse"></i> Safety Monitoring
+                                </a>
+                                <a href="#" class="admin-nav-item" data-tab="settings">
+                                    <i class="fas fa-cog"></i> System Settings
+                                </a>
+                            </nav>
+                        </div>
+
+                        <div class="admin-main">
+                            <!-- User Management Tab -->
+                            <div id="users-tab" class="admin-tab active">
+                                <div class="tab-header">
+                                    <h2>User Management</h2>
+                                    <div class="tab-actions">
+                                        <button class="btn btn--primary">Export Users</button>
+                                        <button class="btn btn--secondary">Import Data</button>
+                                    </div>
+                                </div>
+                                <div class="user-table glass-card">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>User</th>
+                                                <th>Email</th>
+                                                <th>Status</th>
+                                                <th>Credibility</th>
+                                                <th>Last Active</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="users-table-body">
+                                            <!-- Users populated by JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Content Moderation Tab -->
+                            <div id="moderation-tab" class="admin-tab">
+                                <div class="tab-header">
+                                    <h2>Content Moderation</h2>
+                                </div>
+                                <div class="moderation-alerts glass-card">
+                                    <h3>Recent Reports</h3>
+                                    <div class="alert-item">
+                                        <div class="alert-content">
+                                            <strong>Inappropriate Profile Content</strong>
+                                            <p>User: priya_s reported by user: alex_m</p>
+                                            <span class="alert-time">2 hours ago</span>
+                                        </div>
+                                        <div class="alert-actions">
+                                            <button class="btn btn--sm btn--secondary">Review</button>
+                                            <button class="btn btn--sm btn--primary">Take Action</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Analytics Tab -->
+                            <div id="analytics-tab" class="admin-tab">
+                                <div class="tab-header">
+                                    <h2>Analytics Dashboard</h2>
+                                </div>
+                                <div class="analytics-charts">
+                                    <div class="chart-container glass-card" style="position: relative; height: 300px;">
+                                        <h3>User Registration Trends</h3>
+                                        <canvas id="registration-chart"></canvas>
+                                    </div>
+                                    <div class="chart-container glass-card" style="position: relative; height: 300px;">
+                                        <h3>Match Success Rate</h3>
+                                        <canvas id="success-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Safety Monitoring Tab -->
+                            <div id="safety-tab" class="admin-tab">
+                                <div class="tab-header">
+                                    <h2>Safety Monitoring</h2>
+                                </div>
+                                <div class="safety-metrics glass-card">
+                                    <div class="safety-score">
+                                        <h3>Overall Safety Score</h3>
+                                        <div class="score-display">98.5%</div>
+                                        <div class="score-indicators">
+                                            <div class="indicator good">
+                                                <span>Verified Profiles</span>
+                                                <span>96%</span>
+                                            </div>
+                                            <div class="indicator good">
+                                                <span>Clean Background Checks</span>
+                                                <span>99%</span>
+                                            </div>
+                                            <div class="indicator warning">
+                                                <span>Pending Reviews</span>
+                                                <span>12</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- System Settings Tab -->
+                            <div id="settings-tab" class="admin-tab">
+                                <div class="tab-header">
+                                    <h2>System Settings</h2>
+                                </div>
+                                <div class="settings-grid">
+                                    <div class="settings-card glass-card">
+                                        <h3>AI Matching Parameters</h3>
+                                        <div class="setting-item">
+                                            <label>Compatibility Threshold</label>
+                                            <input type="range" min="70" max="100" value="85" class="setting-slider">
+                                            <span>85%</span>
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Max Daily Matches</label>
+                                            <input type="number" value="10" class="glass-input">
+                                        </div>
+                                    </div>
+                                    <div class="settings-card glass-card">
+                                        <h3>Security Settings</h3>
+                                        <div class="setting-item">
+                                            <label>Require Phone Verification</label>
+                                            <input type="checkbox" checked>
+                                        </div>
+                                        <div class="setting-item">
+                                            <label>Background Check Required</label>
+                                            <input type="checkbox" checked>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
