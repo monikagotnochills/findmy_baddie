@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.so
+*.egg-info/
+*.log
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Flask/FastAPI
+instance/
+*.db
+*.sqlite3
+
+# Frontend
+node_modules/
+dist/
+build/
+*.env
+.env.*
+*.pem
+*.crt
+*.key
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+
+# Testing
+.pytest_cache/
+coverage/
+htmlcov/
+.coverage
+coverage.xml
+
+# ngrok
+ngrok.log
+ngrok.*
+
+# Misc
+*.pid
+*.seed
+*.orig
